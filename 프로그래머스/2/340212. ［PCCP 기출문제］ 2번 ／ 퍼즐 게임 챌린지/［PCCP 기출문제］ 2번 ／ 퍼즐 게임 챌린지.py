@@ -1,7 +1,6 @@
 def solution(diffs, times, limit):
     Max = max(diffs)
     l = len(diffs)
-    # for level in range(1, Max + 1):
     start = 1
     Min = Max
 
