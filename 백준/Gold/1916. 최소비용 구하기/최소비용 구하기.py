@@ -4,10 +4,11 @@ input = sys.stdin.readline
 
 N = int(input())
 M = int(input())
-arr = [[] for _ in range(N+1)]
+arr = [dict() for _ in range(N+1)]
 for _ in range(M):
     start, end, cost = map(int, input().split())
-    arr[start].append((end, cost))
+    if end not in arr[start] or cost < arr[start][end]:
+        arr[start][end] = cost
 
 start, end = map(int, input().split())
 
@@ -21,7 +22,7 @@ while heap:
     if dist[now] < cost:
         continue
     
-    for nxt, weight in arr[now]:
+    for nxt, weight in arr[now].items():
         new_cost = cost + weight
         if dist[nxt] > new_cost:
             dist[nxt] = new_cost
