@@ -4,14 +4,14 @@ input = sys.stdin.readline
 
 N = int(input())
 M = int(input())
-arr = [[] for _ in range(1001)]
+arr = [[] for _ in range(N+1)]
 for _ in range(M):
     start, end, cost = map(int, input().split())
     arr[start].append((end, cost))
 
 start, end = map(int, input().split())
 
-dist = [1e11]*(1001)
+dist = [1e11]*(N+1)
 dist[start] = 0
 
 heap = [(0, start)]
