@@ -23,28 +23,28 @@ for _ in range(N-1):
         arr[u].append(v)
         arr[v].append(u)
 
-dist = [-1]*(N+1)
 visited = [0]*(N+1)
+dist = 1
 
 best = 0
-bu, bv = -1, -1
+bu = bv = -1
 
-def bfs(start):
-    q = deque([start])
-    dist[start] = 0
-    visited2 = [start]
+def bfs(start, dist):
+    q = deque([(start, 0)])
+    visited[start] = dist
     far_node = start
     far_dist = 0
+    visited2 = [start]
+
     while q:
-        now = q.popleft()
-        d = dist[now]
+        now, d = q.popleft()
         if d > far_dist:
             far_dist = d
             far_node = now
         for nxt in arr[now]:
-            if dist[nxt] != -1: continue
-            dist[nxt] = d + 1
-            q.append(nxt)
+            if visited[nxt] == dist: continue
+            visited[nxt] = dist
+            q.append((nxt, d+1))
             visited2.append(nxt)
 
     return far_node, far_dist, visited2
@@ -52,13 +52,14 @@ def bfs(start):
 for i in range(1, N+1):
     if visited[i]: continue
     if not arr[i]: continue
-    n1, d1, visited3 = bfs(i)
+    n1, d1, visited3 = bfs(i, dist)
+    dist += 1
+
+    n2, d2, visited4 = bfs(n1, dist)
+    dist += 1
+
     for x in visited3:
         visited[x] = 1
-    dist = [-1]*(N+1)
-
-    n2, d2, visited4 = bfs(n1)
-    dist = [-1]*(N+1)
 
     if d2 > best:
         best = d2
