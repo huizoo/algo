@@ -53,6 +53,8 @@ for i in range(1, N+1):
     if visited[i]: continue
     if not arr[i]: continue
     n1, d1, visited3 = bfs(i)
+    for x in visited3:
+        visited[x] = 1
     dist = [-1]*(N+1)
 
     n2, d2, visited4 = bfs(n1)
