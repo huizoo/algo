@@ -3,33 +3,20 @@ input = sys.stdin.readline
 
 
 N, K = map(int, input().split())
-arr = list()
-a = set()
-b = set()
-c = set()
-for _ in range(N):
-    x, y, z = map(int, input().split())
-    a.add(x)
-    b.add(y)
-    c.add(z)
-    arr.append((x, y, z))
-
+arr = [tuple(map(int, input().split())) for _ in range(N)]
+powers = sorted([x for x, _, _ in arr])
+dexes = sorted([x for _, x, _ in arr])
 
 answer = 1e9
-A = sorted(a)
-B = sorted(b)
-C = sorted(c)
-for i in A:
-    for j in B:
-        if i+j >= answer: break
-        for k in C:
-            if i+j+k >= answer: break
-            cnt = 0
-            for ii, jj, kk in arr:
-                if i >= ii and j >= jj and k >= kk:
-                    cnt += 1
-                    if cnt >= K:
-                        answer = i+j+k
-                        break
+
+for i in range(K-1, len(powers)):
+    for j in range(len(dexes)):
+        arr2 = []
+        for a, b, c in arr:
+            if a <= powers[i] and b <= dexes[j]:
+                arr2.append(c)
+        if len(arr2) >= K:
+            arr2.sort()
+            answer = min(answer, powers[i]+dexes[j]+arr2[K-1])
 
 print(answer)
