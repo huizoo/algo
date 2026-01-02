@@ -16,7 +16,7 @@ while 1:
     answer = 0
 
     for i in range(start, stop+1):
-        if -badness <= arr[i]-i <= badness:
+        if abs(arr[i]-i) <= badness:
             answer += 1
         
     print(f'Test {t}: {answer}')
