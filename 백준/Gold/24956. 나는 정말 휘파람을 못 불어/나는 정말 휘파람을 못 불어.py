@@ -14,7 +14,7 @@ for x in S:
     elif x == 'H':
         wh += w
     elif x == 'E':
-        whee = whee*2 + whe
-        whe += wh
+        whee = (whee*2 + whe) % M
+        whe = (whe + wh) % M
 
 print(whee % M)
