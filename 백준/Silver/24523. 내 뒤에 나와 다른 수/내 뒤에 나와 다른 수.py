@@ -9,8 +9,7 @@ answer[N-1] = -1
 Min = N-1
 Min2 = N
 for i in range(N-2, -1, -1):
-    a, b = arr[i], arr[Min]
-    if a == b:
+    if arr[i] == arr[Min]:
         if Min2 == N:
             answer[i] = -1
         else:
