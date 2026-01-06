@@ -11,11 +11,12 @@ m = [[0]*(M+1) for _ in range(N+1)]
 sm = [[0]*(M+1) for _ in range(N+1)]
 for i in range(N-1, -1, -1):
     for j in range(M-1, -1, -1):
-        m[i][j] = m[i+1][j] + m[i][j+1] - m[i+1][j+1] + (arr[i][j] == 'M')
-        sm[i][j] = sm[i+1][j] + sm[i][j+1] - sm[i+1][j+1]
-        if arr[i][j] == 'S':
-            sm[i][j] += m[i][j]
-        elif arr[i][j] == 'E':
+        now = arr[i][j]
+
+        m[i][j] = m[i+1][j] + m[i][j+1] - m[i+1][j+1] + (now == 'M')
+        sm[i][j] = sm[i+1][j] + sm[i][j+1] - sm[i+1][j+1] + (m[i][j] if now == 'S' else 0)
+
+        if now == 'E':
             answer = (answer + sm[i][j]) % MOD
 
 print(answer % MOD)
