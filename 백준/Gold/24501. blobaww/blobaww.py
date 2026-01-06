@@ -7,16 +7,16 @@ N, M = map(int, input().split())
 arr = [list(input().rstrip()) for _ in range(N)]
 
 answer = 0
-m = [[0]*(M+1) for _ in range(N+1)]
-sm = [[0]*(M+1) for _ in range(N+1)]
-for i in range(N-1, -1, -1):
-    for j in range(M-1, -1, -1):
-        now = arr[i][j]
+e = [[0]*(M+1) for _ in range(N+1)]
+es = [[0]*(M+1) for _ in range(N+1)]
+for i in range(1, N+1):
+    for j in range(1, M+1):
+        now = arr[i-1][j-1]
 
-        m[i][j] = m[i+1][j] + m[i][j+1] - m[i+1][j+1] + (now == 'M')
-        sm[i][j] = sm[i+1][j] + sm[i][j+1] - sm[i+1][j+1] + (m[i][j] if now == 'S' else 0)
+        e[i][j] = e[i-1][j] + e[i][j-1] - e[i-1][j-1] + (now == 'E')
+        es[i][j] = es[i-1][j] + es[i][j-1] - es[i-1][j-1] + (e[i][j] if now == 'S' else 0)
 
-        if now == 'E':
-            answer = (answer + sm[i][j]) % MOD
+        if now == 'M':
+            answer = (answer + es[i][j]) % MOD
 
 print(answer % MOD)
