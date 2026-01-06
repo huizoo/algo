@@ -15,7 +15,7 @@ for i in range(N-1, -1, -1):
         sm[i][j] = sm[i+1][j] + sm[i][j+1] - sm[i+1][j+1]
         if arr[i][j] == 'S':
             sm[i][j] += m[i][j]
-        if arr[i][j] == 'E':
+        elif arr[i][j] == 'E':
             answer = (answer + sm[i][j]) % MOD
 
 print(answer % MOD)
