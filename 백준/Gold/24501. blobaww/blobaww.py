@@ -4,7 +4,7 @@ input = sys.stdin.readline
 MOD = int(1e9+7)
 
 N, M = map(int, input().split())
-arr = [list(input().rstrip()) for _ in range(N)]
+arr = [input().rstrip() for _ in range(N)]
 
 answer = 0
 e = [[0]*(M+1) for _ in range(N+1)]
