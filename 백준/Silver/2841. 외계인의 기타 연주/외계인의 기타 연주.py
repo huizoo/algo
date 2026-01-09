@@ -3,8 +3,8 @@ input = sys.stdin.readline
 
 N, P = map(int, input().split())
 
-arr = [[] for _ in range(N+1)]
-arr2 = [0]*(N+1)
+arr = [[] for _ in range(7)]
+arr2 = [0]*7
 cnt = 0
 
 def abc(x, y):
