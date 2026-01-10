@@ -6,13 +6,14 @@ N = int(input())
 Max = 10**6
 
 arr = [0]*(Max+1)
-for i in range(2, Max+1):
-    for j in range(i, Max+1, i):
-        arr[j] += 1
+arr[0] = arr[1] = 1
+for i in range(2, 10**3):
+    for j in range(i*i, Max+1, i):
+        arr[j] = 1
 
 prime = []
 for i in range(2, Max+1):
-    if arr[i] == 1:
+    if arr[i] == 0:
         prime.append(i)
 
 for _ in range(N):
