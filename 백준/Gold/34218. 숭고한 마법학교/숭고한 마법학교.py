@@ -21,9 +21,6 @@ start = set(q)
 
 while q:
     y, x = q.pop()
-    if y == er and x == ec:
-        print(0)
-        sys.exit()
     for dy, dx in d:
         ny, nx = y+dy, x+dx
         if ny<0 or ny>=N or nx<0 or nx>=M: continue
@@ -32,6 +29,10 @@ while q:
         visited[ny][nx] = 1
         start.add((ny, nx))
         q.append((ny, nx))
+
+if (er, ec) in start:
+    print(0)
+    sys.exit()
 
 q2 = [(er, ec)]
 visited[er][ec] = 1
@@ -58,11 +59,7 @@ for y, x in start:
 
 while q3:
     y, x = q3.popleft()
-
-    if (y, x) in end:
-        print(dist[y][x])
-        break
-
+    
     for dy, dx in d:
         ny, nx = y+dy, x+dx
         if ny<0 or ny>=N or nx<0 or nx>=M: continue
@@ -70,3 +67,9 @@ while q3:
             dist[ny][nx] = dist[y][x] + 1
             q3.append((ny, nx))
 
+Min = 1e9
+for y, x in end:
+    if Min > dist[y][x]:
+        Min = dist[y][x]
+
+print(Min)
