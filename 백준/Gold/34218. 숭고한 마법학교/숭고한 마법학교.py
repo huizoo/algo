@@ -59,6 +59,10 @@ for y, x in start:
 
 while q3:
     y, x = q3.popleft()
+
+    if (y, x) in end:
+        print(dist[y][x])
+        break
     
     for dy, dx in d:
         ny, nx = y+dy, x+dx
@@ -66,10 +70,3 @@ while q3:
         if dist[ny][nx] > dist[y][x] + 1:
             dist[ny][nx] = dist[y][x] + 1
             q3.append((ny, nx))
-
-Min = 1e9
-for y, x in end:
-    if Min > dist[y][x]:
-        Min = dist[y][x]
-
-print(Min)
