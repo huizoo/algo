@@ -17,6 +17,7 @@ heap = []
 for nxt, t, c in taxi[1]:
     if t > T or c > M : continue
     heapq.heappush(heap, (c, t, nxt))
+    visited[nxt].append((c, t)) 
         
 
 while heap:
