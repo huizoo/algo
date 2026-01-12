@@ -18,6 +18,10 @@ heap = [(0, 0, 1)]
 
 while heap:
     c1, t1, now = heapq.heappop(heap)
+    
+    if now == N:
+        print(c1)
+        break
 
     if dist[now][t1] < c1: continue    
 
@@ -29,6 +33,5 @@ while heap:
             dist[nxt][t2] = c2
             heapq.heappush(heap, (c2, t2, nxt))
 
-
-answer = min(dist[N])
-print(-1 if answer == 1e9 else answer)
+else:
+    print(-1)
