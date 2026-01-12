@@ -19,6 +19,8 @@ heap = [(0, 0, 1)]
 while heap:
     c1, t1, now = heapq.heappop(heap)
 
+    if dist[now][t1] < c1: continue    
+
     for nxt, t, c in taxi[now]:
         c2 = c+c1
         t2 = t+t1
