@@ -10,11 +10,14 @@ for _ in range(L):
     taxi[u].append((v, t, c))
     taxi[v].append((u, t, c))
 
-dist = [[1e9]*(T+1) for _ in range(N+1)]
-dist[1][0] = 0
 
-# 현재 소모된 돈, 시간, 현재 위치
-heap = [(0, 0, 1)]
+visited = [[] for _ in range(N+1)]
+
+heap = []
+for nxt, t, c in taxi[1]:
+    if t > T or c > M : continue
+    heapq.heappush(heap, (c, t, nxt))
+        
 
 while heap:
     c1, t1, now = heapq.heappop(heap)
@@ -23,14 +26,16 @@ while heap:
         print(c1)
         break
 
-    if dist[now][t1] < c1: continue    
-
     for nxt, t, c in taxi[now]:
         c2 = c+c1
         t2 = t+t1
         if t2 > T or c2 > M: continue
-        if c2 < dist[nxt][t2]:
-            dist[nxt][t2] = c2
+
+        for c3, t3 in visited[nxt]:
+            if c3 <= c2 and t3 <= t2:
+                break
+        else:
+            visited[nxt].append((c2, t2))
             heapq.heappush(heap, (c2, t2, nxt))
 
 else:
