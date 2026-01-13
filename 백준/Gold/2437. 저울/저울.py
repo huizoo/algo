@@ -6,10 +6,9 @@ arr.sort()
 
 Max = 0
 for w in arr:
-    if Max+1 >= w:
-        Max += w
-    else:
+    if w > Max + 1:
         break
+    Max += w
 
 print(Max+1)
 
