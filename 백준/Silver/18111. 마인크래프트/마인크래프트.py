@@ -6,43 +6,31 @@ arr = [list(map(int, input().split())) for _ in range(N)]
 
 cnt = [0]*257
 
-Min = 1e9
-Max = 0
-
 for row in arr:
-    for height in row:
-        cnt[height] += 1
-        if Max < height:
-            Max = height
-        if Min > height:
-            Min = height
+    for h in row:
+        cnt[h] += 1
 
-if Min == Max:
-    print(0, Min)
-    sys.exit()
+below = [0]*257
+above = [0]*257
+now1 = now2 = 0
+for i in range(1, 257):
+    now1 += cnt[i-1]
+    below[i] += below[i-1] + now1
+    j = 257-i
+    now2 += cnt[j]
+    above[j-1] += above[j] + now2
 
-time = 1e9
-Max_height = 0
 
-for height1 in range(Max, Min-1, -1):
-    time2 = 0
-    remain = B
-    flag = 0
-    for height2 in range(Max, Min-1, -1):
-        gap = height1 - height2
-        if gap > 0:
-            if remain - gap*cnt[height2] < 0:
-                flag = 1
-                break
-            remain -= gap*cnt[height2]
-            time2 += gap*cnt[height2]
-        elif gap < 0:
-            remain += -gap*cnt[height2]
-            time2 += -gap*2*cnt[height2]
+time = float('inf')
+height = 0
 
-    if flag == 0 and time2 < time:
-        time = time2
-        Max_height = height1
+for h in range(256, -1, -1):
+    b = below[h]
+    a = above[h]
+    if B+a-b < 0: continue
+    t = 2*a+b
+    if t < time:
+        time = t
+        height = h
 
-print(time, Max_height)
-
+print(time, height)
