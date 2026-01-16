@@ -24,12 +24,10 @@ for i in range(1, 257):
 time = float('inf')
 height = 0
 
-for h in range(256, -1, -1):
-    b = below[h]
-    a = above[h]
+for h, (b, a) in enumerate(zip(below, above)):
     if B+a-b < 0: continue
     t = 2*a+b
-    if t < time:
+    if t <= time:
         time = t
         height = h
 
