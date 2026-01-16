@@ -14,10 +14,10 @@ above = [0]*257
 now1 = now2 = 0
 for i in range(1, 257):
     now1 += cnt[i-1]
-    below[i] += below[i-1] + now1
+    below[i] = below[i-1] + now1
     j = 257-i
     now2 += cnt[j]
-    above[j-1] += above[j] + now2
+    above[j-1] = above[j] + now2
 
 
 time = float('inf')
