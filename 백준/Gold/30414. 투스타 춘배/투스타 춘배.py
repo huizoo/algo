@@ -1,5 +1,4 @@
 import sys
-sys.setrecursionlimit(100100)
 input = sys.stdin.readline
 
 N, P = map(int, input().split())
@@ -16,18 +15,26 @@ for _ in range(N - 1):
     roads[u].append(v)
     roads[v].append(u)
 
-visited = [0] * N
+Ans = [0] * N
+parent = [-1] * N
 
-def dfs(now):
-    visited[now] = 1
-    need = B[now]-A[now]
+stack = [(P, 0)]
+parent[P] = P
 
-    for v in roads[now]:
-        if not visited[v]:
-            need += dfs(v)
-    if need < 0:
-        return 0
-    return need
+while stack:
+    now, state = stack.pop()
 
-answer = dfs(P)
-print(answer)
+    if state == 0:
+        stack.append((now, 1))
+        for nxt in roads[now]:
+            if nxt != parent[now]:
+                parent[nxt] = now
+                stack.append((nxt, 0))
+    else:
+        need = B[now] - A[now]
+        for nxt in roads[now]:
+            if nxt != parent[now]:
+                need += Ans[nxt]
+        Ans[now] = max(0, need)
+
+print(Ans[P])
