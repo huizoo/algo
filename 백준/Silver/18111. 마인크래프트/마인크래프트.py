@@ -2,12 +2,11 @@ import sys
 input = sys.stdin.readline
 
 N, M, B = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(N)]
 
 cnt = [0]*257
 
-for row in arr:
-    for h in row:
+for i in range(N):
+    for h in map(int, input().split()):
         cnt[h] += 1
 
 below = [0]*257
