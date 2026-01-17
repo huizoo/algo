@@ -20,8 +20,6 @@ while i < N:
         i = N
     arr2.append((sl, sr))
 
-arr = None
-
 l, r = arr2[0]
 jump = last = r
 nl, nr = l, r
