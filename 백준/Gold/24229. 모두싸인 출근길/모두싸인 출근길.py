@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-arr = sorted([list(map(int, input().split())) for _ in range(N)])
+arr = sorted([tuple(map(int, input().split())) for _ in range(N)])
 
 arr2 = []
 i = 0
@@ -20,6 +20,7 @@ while i < N:
         i = N
     arr2.append((sl, sr))
 
+arr = None
 
 l, r = arr2[0]
 jump = last = r
