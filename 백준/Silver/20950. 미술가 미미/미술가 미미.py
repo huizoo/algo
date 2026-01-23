@@ -1,4 +1,5 @@
 import sys
+from itertools import combinations
 input = sys.stdin.readline
 
 def solve():
@@ -8,24 +9,17 @@ def solve():
     P = min(N, 7)
     
     Min = 1e9
-    def dfs(idx, cnt, Sr, Sg, Sb):
-        nonlocal Min
-        if cnt >= 2:
-            Min = min(Min, (abs(R-Sr//cnt)+abs(G-Sg//cnt)+abs(B-Sb//cnt)))
-        if cnt == P:
-            return
-        
-        for i in range(idx+1, N):
-            r, g, b = arr[i]
-            dfs(i, cnt+1, Sr+r, Sg+g, Sb+b)
+    
+    for i in range(2, P+1):
+        for rgb in combinations(arr, i):
+            r = g = b = 0
+            for r2, g2, b2 in rgb:
+                r += r2; g += g2; b += b2
+            r, g, b = r//i, g//i, b//i
 
-    for i in range(N):
-        dfs(i, 1, *arr[i])
+            Min = min(Min, abs(R-r)+abs(G-g)+abs(B-b))
 
     print(Min)
-    
-
-
 
 if __name__ == "__main__":
     solve()
