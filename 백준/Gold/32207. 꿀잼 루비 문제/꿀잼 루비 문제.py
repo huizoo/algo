@@ -5,7 +5,7 @@ input = sys.stdin.readline
 def solve():
     N, M, K = map(int, input().split())
 
-    L = 200
+    L = 21
 
     heap = []
     for i in range(N):
@@ -50,3 +50,4 @@ def solve():
     print(Max)
 
 solve()
+
