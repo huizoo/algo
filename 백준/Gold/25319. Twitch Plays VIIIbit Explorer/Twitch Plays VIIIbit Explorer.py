@@ -27,26 +27,22 @@ def solve():
         cnt = min(cnt, len(dic[ch]) // v)
 
     ans = []
-    picked = set()
     for _ in range(cnt):
         temp = []
         sy1, sx1 = sy, sx
 
         for i in nick:
-            for y, x in dic.get(i, []):
-                if (y, x) not in picked:
-                    picked.add((y, x))
-                    if sy1 > y:
-                        temp.append('U'*(sy1-y))
-                    elif y > sy1:
-                        temp.append('D'*(y-sy1))
-                    if sx1 > x:
-                        temp.append('L'*(sx1-x))
-                    elif x > sx1:
-                        temp.append('R'*(x-sx1))
-                    temp.append('P')
-                    sy1, sx1 = y, x
-                    break
+            y, x = dic[i].pop()
+            if sy1 > y:
+                temp.append('U'*(sy1-y))
+            elif y > sy1:
+                temp.append('D'*(y-sy1))
+            if sx1 > x:
+                temp.append('L'*(sx1-x))
+            elif x > sx1:
+                temp.append('R'*(x-sx1))
+            temp.append('P')
+            sy1, sx1 = y, x
 
         ans.extend(temp)
         sy, sx = sy1, sx1
