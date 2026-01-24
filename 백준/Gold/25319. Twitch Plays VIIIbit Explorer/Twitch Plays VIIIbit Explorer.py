@@ -15,13 +15,23 @@ def solve():
     sy = sx = 0
     ey, ex = N-1, M-1
 
-    cnt = 0
+    need = defaultdict(int)
+    for ch in nick:
+        need[ch] += 1
+
+    cnt = 1e9
+    for ch, v in need.items():
+        if ch not in dic:
+            cnt = 0
+            break
+        cnt = min(cnt, len(dic[ch]) // v)
+
     ans = []
     picked = set()
-    while True:
-        flag = 0
+    for _ in range(cnt):
         temp = []
         sy1, sx1 = sy, sx
+
         for i in nick:
             for y, x in dic.get(i, []):
                 if (y, x) not in picked:
@@ -37,14 +47,9 @@ def solve():
                     temp.append('P')
                     sy1, sx1 = y, x
                     break
-            else:
-                flag = 1
-        if flag:
-            break
-        else:
-            ans.extend(temp)
-            sy, sx = sy1, sx1
-            cnt += 1
+
+        ans.extend(temp)
+        sy, sx = sy1, sx1
 
     if sx != ex:
         ans.append('R'*(ex-sx))
