@@ -12,17 +12,17 @@ for i in range(N):
         if arr[i][j] == 0: continue
         if visited[i][j] == 1: continue
         q = [(i, j)]
-        lands[land].add((i, j))
         visited[i][j] = 1
         while q:
             y, x = q.pop()
             for dy, dx in d:
                 ny, nx = dy+y, dx+x
                 if ny<0 or nx<0 or ny>=N or nx>=N: continue
-                if arr[ny][nx] == 0: continue
+                if arr[ny][nx] == 0:
+                    lands[land].add((y, x))
+                    continue
                 if visited[ny][nx] == 1: continue
                 visited[ny][nx] = 1
-                lands[land].add((ny, nx))
                 q.append((ny, nx))
         land += 1
 
