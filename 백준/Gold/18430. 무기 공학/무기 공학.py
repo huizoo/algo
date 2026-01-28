@@ -70,7 +70,7 @@ for i in range(N):
 Max = 0
 nm = N*M
 visited = [[False]*M for _ in range(N)]
-for i in range(2*N):
-    abc(i, 0)
+
+abc(0, 0)
     
 print(Max)
