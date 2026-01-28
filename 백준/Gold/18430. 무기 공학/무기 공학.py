@@ -3,6 +3,9 @@ input = sys.stdin.readline
 # 상 좌 하 우 순서
 d = [(-1, 0), (0, -1), (1, 0), (0, 1)]
 
+def bhc(y, x):
+    return 0<=y<N and 0<=x<M and not visited[y][x]
+
 def abc(y, x, Sum):
     global Max
     if x >= M:
@@ -13,48 +16,38 @@ def abc(y, x, Sum):
             Max = Sum
         return
     if not visited[y][x]:
-        check = [False]*4
-        for k in range(4):
-            dy, dx = d[k]
-            ny, nx = dy+y, dx+x
-            if ny<0 or nx<0 or ny>=N or nx>=M: continue
-            if visited[ny][nx]: continue
-            check[k] = True
-        if check[0]:
-            if check[1]:
-                visited[y][x] = True
-                visited[y-1][x] = True
-                visited[y][x-1] = True
-                abc(y, x+1, Sum+2*arr[y][x]+arr[y-1][x]+arr[y][x-1])
-                visited[y][x] = False
-                visited[y-1][x] = False
-                visited[y][x-1] = False
-            if check[3]:
-                visited[y][x] = True
-                visited[y-1][x] = True
-                visited[y][x+1] = True
-                abc(y, x+2, Sum+2*(arr[y][x])+arr[y-1][x]+arr[y][x+1])
-                visited[y][x] = False
-                visited[y-1][x] = False
-                visited[y][x+1] = False
-        if check[2]:
-            if check[1]:
-                visited[y][x] = True
-                visited[y+1][x] = True
-                visited[y][x-1] = True
-                abc(y, x+1, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x-1])
-                visited[y][x] = False
-                visited[y+1][x] = False
-                visited[y][x-1] = False
-            if check[3]:
-                visited[y][x] = True
-                visited[y+1][x] = True
-                visited[y][x+1] = True
-                abc(y, x+2, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x+1])
-                visited[y][x] = False
-                visited[y+1][x] = False
-                visited[y][x+1] = False
+        visited[y][x] = True
 
+        if bhc(y-1, x) and bhc(y, x-1):
+            visited[y-1][x] = True
+            visited[y][x-1] = True
+            abc(y, x+1, Sum+2*arr[y][x]+arr[y-1][x]+arr[y][x-1])
+            visited[y-1][x] = False
+            visited[y][x-1] = False
+
+        if bhc(y-1, x) and bhc(y, x+1):
+            visited[y-1][x] = True
+            visited[y][x+1] = True
+            abc(y, x+2, Sum+2*arr[y][x]+arr[y-1][x]+arr[y][x+1])
+            visited[y-1][x] = False
+            visited[y][x+1] = False
+
+        if bhc(y+1, x) and bhc(y, x+1):
+            visited[y+1][x] = True
+            visited[y][x+1] = True
+            abc(y, x+2, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x+1])
+            visited[y+1][x] = False
+            visited[y][x+1] = False
+
+        if bhc(y+1, x) and bhc(y, x-1):
+            visited[y+1][x] = True
+            visited[y][x-1] = True
+            abc(y, x+1, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x-1])
+            visited[y+1][x] = False
+            visited[y][x-1] = False
+
+        visited[y][x] = False
+    
     abc(y, x+1, Sum)    
 
 N, M = map(int, input().split())
