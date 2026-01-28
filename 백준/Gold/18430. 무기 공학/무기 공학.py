@@ -11,22 +11,48 @@ def abc(n, Sum):
         return
     y, x = seq[n]
     if not visited[y][x]:
+        check = [False]*4
         for k in range(4):
-            dy, dx = d[k-1]
+            dy, dx = d[k]
             ny, nx = dy+y, dx+x
             if ny<0 or nx<0 or ny>=N or nx>=M: continue
             if visited[ny][nx]: continue
-            dy1, dx1 = d[k]
-            ny1, nx1 = dy1+y, dx1+x
-            if ny1<0 or nx1<0 or ny1>=N or nx1>=M: continue
-            if visited[ny1][nx1]: continue
-            visited[y][x] = True
-            visited[ny][nx] = True
-            visited[ny1][nx1] = True
-            abc(n+(1 if 1<=k<3 else 2), Sum+2*arr[y][x]+arr[ny][nx]+arr[ny1][nx1])
-            visited[y][x] = False
-            visited[ny][nx] = False
-            visited[ny1][nx1] = False
+            check[k] = True
+        if check[0]:
+            if check[1]:
+                visited[y][x] = True
+                visited[y-1][x] = True
+                visited[y][x-1] = True
+                abc(n+1, Sum+2*arr[y][x]+arr[y-1][x]+arr[y][x-1])
+                visited[y][x] = False
+                visited[y-1][x] = False
+                visited[y][x-1] = False
+            if check[3]:
+                visited[y][x] = True
+                visited[y-1][x] = True
+                visited[y][x+1] = True
+                abc(n+2, Sum+2*(arr[y][x])+arr[y-1][x]+arr[y][x+1])
+                visited[y][x] = False
+                visited[y-1][x] = False
+                visited[y][x+1] = False
+        if check[2]:
+            if check[1]:
+                visited[y][x] = True
+                visited[y+1][x] = True
+                visited[y][x-1] = True
+                abc(n+1, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x-1])
+                visited[y][x] = False
+                visited[y+1][x] = False
+                visited[y][x-1] = False
+            if check[3]:
+                visited[y][x] = True
+                visited[y+1][x] = True
+                visited[y][x+1] = True
+                abc(n+2, Sum+2*arr[y][x]+arr[y+1][x]+arr[y][x+1])
+                visited[y][x] = False
+                visited[y+1][x] = False
+                visited[y][x+1] = False
+
     abc(n+1, Sum)    
 
 N, M = map(int, input().split())
