@@ -3,26 +3,21 @@ input = sys.stdin.readline
 
 def main():
     arr = [input().rstrip() for _ in range(5)]
+    arr2 = [[0]*5 for _ in range(5)]
+    for i in range(5):
+        for j in range(5):
+            if arr[i][j] == 'Y':
+                arr2[i][j] = 1
     ans = 0
     d = [(0, 1), (1, 0), (-1, 0), (0, -1)]
     
-    def update():
-        mask = 0
-        for i in range(5):
-            for j in range(5):
-                if visited[i][j]:
-                    mask |= 1<<(i*5+j)
-        if mask not in seen:
-            seen.add(mask)
-            return 1
-        return 0
-
-    def dfs(Ycnt, Scnt):
+    def dfs(level, Ycnt, mask):
         nonlocal ans
         if Ycnt == 4:
             return
-        if Ycnt+Scnt == 7:
-            ans += update()
+        if level == 7:
+            ans += 0 if mask in seen else 1
+            seen.add(mask)
             return
         for y, x in list(cands):
             lst = []
@@ -38,10 +33,7 @@ def main():
                         cands.add((ny, nx))
                         lst.append((ny, nx))
         
-            if arr[y][x] == 'S':
-                dfs(Ycnt, Scnt+1)
-            else:
-                dfs(Ycnt+1, Scnt)
+            dfs(level+1, Ycnt+arr2[y][x], mask | 1<<(5*y+x))
         
             visited[y][x] = 0
             for i in lst:
@@ -60,10 +52,7 @@ def main():
                 if 0<=ni<5 and 0<=nj<5 and not visited[ni][nj]:
                     cands.add((ni, nj))
 
-            if arr[i][j] == 'S':
-                dfs(0, 1)
-            else:
-                dfs(1, 0)
+            dfs(1, arr2[i][j], 1<<(5*i+j))
             
 
     print(ans)
