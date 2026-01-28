@@ -5,8 +5,6 @@ d = [(-1, 0), (0, -1), (1, 0), (0, 1)]
 
 def abc(n, Sum):
     global Max
-    if Sum == 998:
-        debug = 1
     if n == nm:
         if Max < Sum:
             Max = Sum
@@ -25,7 +23,7 @@ def abc(n, Sum):
             visited[y][x] = True
             visited[ny][nx] = True
             visited[ny1][nx1] = True
-            abc(n+1, Sum+2*arr[y][x]+arr[ny][nx]+arr[ny1][nx1])
+            abc(n+(1 if 1<=k<3 else 2), Sum+2*arr[y][x]+arr[ny][nx]+arr[ny1][nx1])
             visited[y][x] = False
             visited[ny][nx] = False
             visited[ny1][nx1] = False
@@ -45,8 +43,8 @@ for i in range(N):
 
 Max = 0
 nm = N*M
+visited = [[False]*M for _ in range(N)]
 for i in range(2*N):
-    visited = [[False]*M for _ in range(N)]
     abc(i, 0)
     
 print(Max)
