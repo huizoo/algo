@@ -8,8 +8,8 @@ while True:
     if x[0] == '#':
         break
     cnt = 0
-    for x in x:
-        if x in Set:
+    for i in x:
+        if i in Set:
             cnt += 1
     
     answer.append(cnt)
