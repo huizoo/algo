@@ -2,19 +2,27 @@ import sys
 input = sys.stdin.readline
 N, d, k, c = map(int, input().split())
 arr = [int(input()) for _ in range(N)]
-arr2 = arr+arr
-Max = 0
+
+cnt = [0]*(d+1)
+kind = 0
 for i in range(k):
-    while i < N:
-        if Max == k+1:
-            break 
-        Set = set()
-        for j in range(i, i+k):
-            if arr2[j] != c:
-                Set.add(arr2[j])
-        cnt = len(Set)+1
-        if Max < cnt:
-            Max = cnt
-        i += k
+    now = arr[i]
+    if cnt[now] == 0:
+        kind += 1
+    cnt[now] += 1
+
+ans = 0
+for i in range(N):
+    ans = max(ans, kind + (0 if cnt[c] else 1))
+
+    left = arr[i]
+    cnt[left] -= 1
+    if cnt[left] == 0:
+        kind -= 1
     
-print(Max)
+    right = arr[(i+k) % N]
+    if cnt[right] == 0:
+        kind += 1
+    cnt[right] += 1
+
+print(ans)
