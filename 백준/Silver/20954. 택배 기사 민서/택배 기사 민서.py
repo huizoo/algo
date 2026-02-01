@@ -8,10 +8,8 @@ for _ in range(T):
         answer.append(x)
         continue
     if x >= 0:
-        y = 2**(x-1).bit_length()
-        answer.append(y*4-4+x)
+        answer.append(4*(1 << (x-1).bit_length())-4+x)
     else:
-        y = 2**(x+1).bit_length()
-        answer.append(y*6-4-x)
+        answer.append(6*(1 << (x+1).bit_length())-4-x)
 
 print(*answer, sep='\n')
