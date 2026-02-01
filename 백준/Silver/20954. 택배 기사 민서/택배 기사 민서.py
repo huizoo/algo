@@ -7,7 +7,7 @@ for _ in range(T):
     if x == 0:
         answer.append(x)
         continue
-    if x > 0:
+    if x >= 0:
         y = 2**(x-1).bit_length()
         answer.append(y*4-4+x)
     else:
