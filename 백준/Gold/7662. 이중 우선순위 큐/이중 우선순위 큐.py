@@ -1,44 +1,46 @@
 from collections import defaultdict
 import sys, heapq
 input = sys.stdin.readline
-
 T = int(input())
 for _ in range(T):
     k = int(input())
+    Max = []
+    Min = []
+    cnt = 0
     dic = defaultdict(int)
-    heap = []
-    heap2 = []
     for _ in range(k):
-        a, b = map(str, input().split())
-        b = int(b)
-        if a == 'I':
-            heapq.heappush(heap, b)
-            heapq.heappush(heap2, -b)
-            dic[b] += 1
-        elif not heap or not heap2:
-            continue
-        elif b == 1:
-            while heap2 and dic[-heap2[0]] == 0:
-                heapq.heappop(heap2)
-            if heap2:
-                x = heapq.heappop(heap2)
-                dic[-x] -= 1
-        else:
-            while heap and dic[heap[0]] == 0:
-                heapq.heappop(heap)
-            if heap:
-                x = heapq.heappop(heap)
-                dic[x] -= 1
-    
-
-    while heap and dic[heap[0]] == 0:
-        heapq.heappop(heap)
-
-    while heap2 and dic[-heap2[0]] == 0:
-        heapq.heappop(heap2)
-
-    if heap and heap2:
-        print(-heap2[0], heap[0])
-    else:
+        ch, n = input().split()
+        if ch == 'I':
+            m = int(n)
+            heapq.heappush(Max, -m)
+            heapq.heappush(Min, m)
+            dic[m] += 1
+            cnt +=1
+        elif ch == 'D':
+            if cnt == 0:
+                continue
+            if n == '1':
+                while Max and dic[-Max[0]] == 0:
+                    heapq.heappop(Max)
+                dic[-heapq.heappop(Max)] -= 1
+                cnt -= 1
+                if cnt == 0:
+                    Min = []
+            else:
+                while Min and dic[Min[0]] == 0:
+                    heapq.heappop(Min)
+                dic[heapq.heappop(Min)] -= 1
+                cnt -= 1
+                if cnt == 0:
+                    Max = []
+            
+    if cnt == 0:
         print('EMPTY')
-    
+    else:
+        while Max and dic[-Max[0]] == 0:
+            heapq.heappop(Max)
+
+        while Min and dic[Min[0]] == 0:
+            heapq.heappop(Min)
+
+        print(-Max[0], Min[0])
