@@ -1,24 +1,38 @@
 import sys
 input = sys.stdin.readline
+
 R, C = map(int, input().split())
 arr = [input().rstrip() for _ in range(R)]
 
 visited = [[0]*C for _ in range(R)]
 
-def dfs(i, j):
-    if j == C-1:
-        return 1
-    flag = 0
-    for ni in [i-1, i, i+1]:
-        if 0<=ni<R and arr[ni][j+1] == '.' and not visited[ni][j+1]:
-            visited[ni][j+1] = 1
-            flag = dfs(ni, j+1)
-            if flag:
+def abc(i):
+    stack = [(i, 0)]
+    visited[i][0] = 1
+
+    while stack:
+        i, j = stack[-1]
+
+        if j == C-1:
+            return 1
+
+        moved = 0
+
+        for ni in [i-1, i, i+1]:
+            if 0 <= ni < R and arr[ni][j+1] == '.' and not visited[ni][j+1]:
+                visited[ni][j+1] = 1
+                stack.append((ni, j+1))
+                moved = 1
                 break
-    return flag
+
+        if not moved:
+            stack.pop()
+
+    return 0
+
 
 cnt = 0
 for i in range(R):
-    cnt += dfs(i, 0)
+    cnt += abc(i)
 
 print(cnt)
