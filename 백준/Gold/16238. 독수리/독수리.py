@@ -3,5 +3,11 @@ input = sys.stdin.readline
 
 N = int(input())
 A = sorted(map(int, input().split()), reverse=True)
+Sum = 0
+for idx, value in enumerate(A):
+    if value-idx > 0:
+        Sum += value-idx
+    else:
+        break
 
-print(sum(A[i]-i if A[i]-i > 0 else 0 for i in range(N)))
+print(Sum)
