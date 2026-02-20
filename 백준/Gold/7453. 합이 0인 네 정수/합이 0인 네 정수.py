@@ -1,13 +1,11 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-A = []; B = []; C = []; D = []
-for _ in range(N):
-    a, b, c, d = map(int, input().split())
-    A.append(a); B.append(b); C.append(c); D.append(d)
+arr = [list(map(int, input().split())) for _ in range(N)]
+arr = tuple(map(sorted, zip(*arr)))
 
-AB = [a+b for a in A for b in B]
-CD = [c+d for c in C for d in D]
+AB = [a+b for a in arr[0] for b in arr[1]]
+CD = [c+d for c in arr[2] for d in arr[3]]
         
 AB.sort(); CD.sort()
 
