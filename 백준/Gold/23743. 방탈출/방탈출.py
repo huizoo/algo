@@ -1,5 +1,4 @@
 import sys
-sys.setrecursionlimit(10**5)
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
@@ -14,9 +13,10 @@ edges.sort(key=lambda x: x[2])
 par = list(range(N+1))
 
 def find(x):
-    if par[x] != x:
-       par[x] = find(par[x])
-    return par[x]
+    while par[x] != x:
+        par[x] = par[par[x]]
+        x = par[x]
+    return x
 
 def union(a, b):
     bossA, bossB = find(a), find(b)
