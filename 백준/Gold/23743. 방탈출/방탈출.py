@@ -11,6 +11,7 @@ for idx, t in enumerate(map(int, input().split())):
 edges.sort(key=lambda x: x[2])
 
 par = list(range(N+1))
+rank = [0]*(N+1)
 
 def find(x):
     while par[x] != x:
@@ -22,7 +23,13 @@ def union(a, b):
     bossA, bossB = find(a), find(b)
     if bossA == bossB:
         return False
-    par[bossA] = bossB
+    if rank[bossA] < rank[bossB]:
+        par[bossA] = bossB
+    else:
+        par[bossB] = bossA
+        if rank[bossA] == rank[bossB]:
+            rank[bossA] += 1
+    
     return True
 
 
