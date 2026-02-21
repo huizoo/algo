@@ -9,14 +9,14 @@ cards = [i for i in range(N)]
 
 cnt = 0
 visited = set()
-visited.add(''.join(map(str, cards)))
+visited.add(tuple(cards))
 while any(P[cards[i]] != i % 3 for i in range(N)):
     cnt += 1
     nxt = [-1]*N
     for i in range(N):
         nxt[S[i]] = cards[i]
     cards = nxt
-    check = ''.join(map(str, cards))
+    check = tuple(cards)
     if check in visited:
         print(-1)
         sys.exit()
