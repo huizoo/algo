@@ -9,6 +9,8 @@ if N%2 == 1 and N != 1:
     q.append(q.popleft())
 while q:
     ans.append(q.popleft())
-    if q:
+    try:
         q.append(q.popleft())
+    except:
+        break
 print(' '.join(map(str, ans)))
