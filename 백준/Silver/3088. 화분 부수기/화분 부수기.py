@@ -1,33 +1,11 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-arr = [tuple(map(int, input().split())) for _ in range(N)]
-arr2 = [[] for _ in range(1000001)]
-for i, (a, b, c) in enumerate(arr):
-    arr2[a].append(i)
-    arr2[b].append(i)
-    arr2[c].append(i)
-
-visited = [False]*N
+visited = [False]*1000001
 cnt = 0
-
-def abc(x, y):
-    for nxt in arr2[x]:
-        if visited[nxt]: continue
-        if nxt < y: continue
-        visited[nxt] = True
-        stack.append(nxt)
-
-for i in range(N):
-    if visited[i]: continue
-    visited[i] = True
-    cnt += 1
-    stack = [i]
-    while stack:
-        now = stack.pop()
-        a, b, c = arr[now]
-        abc(a, now)
-        abc(b, now)
-        abc(c, now)
-
+for _ in range(N):
+    a, b, c =  map(int, input().split())
+    if not visited[a] | visited[b] | visited[c]:
+        cnt += 1
+    visited[a] = visited[b] = visited[c] = True
 print(cnt)
