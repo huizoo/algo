@@ -20,24 +20,20 @@ for i, (ci, cj) in enumerate(chicken):
 
 Min = [10**9]*hl
 Min2 = 10**9
-def abc(level, idx, Sum):
+def abc(level, idx):
     global Min2, Min
     if level == M:
-        if Min2 > Sum:
-            Min2 = Sum
+        Min2 = min(Min2, sum(Min))
         return
-    
     for i in range(idx, cl):
         temp = Min[:]
-        S = 0
         for j in range(hl):
             if Min[j] > arr2[i][j]:
                 Min[j] = arr2[i][j]
-                S += Min[j] - (0 if temp[j] == 10**9 else temp[j])
     
-        abc(level+1, i+1, Sum+S)
+        abc(level+1, i+1)
         Min = temp[:]
     
-abc(0, 0, 0)
+abc(0, 0)
 
 print(Min2)
