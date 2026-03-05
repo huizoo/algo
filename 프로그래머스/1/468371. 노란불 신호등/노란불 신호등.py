@@ -12,10 +12,10 @@ def solution(signals):
     for i, (g, y, r) in enumerate(signals):
         y_idx = g
         length = L[i]
-        while g < LCM:
-            for i in range(g, g+y):
-                YELLOW[i] += 1
-            g += length
+        while y_idx < LCM:
+            for j in range(y_idx, y_idx+y):
+                YELLOW[j] += 1
+            y_idx += length
             
     N = len(signals)
     return (1 + YELLOW.index(N)) if N in YELLOW else -1
