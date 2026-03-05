@@ -13,13 +13,14 @@ ex = set(input().rstrip() for _ in range(M))
 pre = None
 ans = []
 ans2 = []
+answer = []
 for a, b in arr:
     if pre != a:
         for x in ans2:
-            print(pre, '.', x, sep='')
+            answer.append(pre+'.'+x)
         ans2 = []
         for x in ans:
-            print(pre, '.', x, sep='')
+            answer.append(pre+'.'+x)
         ans = []
         pre = a
     if b in ex:
@@ -28,6 +29,8 @@ for a, b in arr:
         ans.append(b)
 
 for x in ans2:
-    print(pre, '.', x, sep='')
+    answer.append(pre+'.'+x)
 for x in ans:
-    print(pre, '.', x, sep='')
+    answer.append(pre+'.'+x)
+
+print('\n'.join(answer))
