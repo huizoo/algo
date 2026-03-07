@@ -24,4 +24,4 @@ def dfs(now):
 
 dfs(R)
 
-print('\n'.join(map(str, visited[1:])))
+print(*visited[1:], sep='\n')
