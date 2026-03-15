@@ -1,18 +1,31 @@
+from collections import deque
 import sys
 input = sys.stdin.readline
 
 N = int(input())
 A = list(map(int, input().split()))
 
-ans = 0
-for i in range(1, 9):
-    l = 0
-    for r, v in enumerate(A):
-        if N-l <= ans:
-            break
-        if i <= v <= i+2:
-            ans = max(ans, r-l+1)
-        else:
-            l = r+1
+maxq = deque()
+minq = deque()
+
+l = ans = 0
+
+for r, v in enumerate(A):
+    while maxq and maxq[-1] < v:
+        maxq.pop()
+    maxq.append(v)
+
+    while minq and minq[-1] > v:
+        minq.pop()
+    minq.append(v)
+
+    while maxq[0] - minq[0] > 2:
+        if maxq[0] == A[l]:
+            maxq.popleft()
+        if minq[0] == A[l]:
+            minq.popleft()
+        l += 1
+    
+    ans = max(ans, r-l+1)
 
 print(ans)
