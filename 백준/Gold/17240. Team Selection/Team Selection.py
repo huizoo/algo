@@ -8,11 +8,11 @@ for i in range(N):
     for mask in range((1<<5)-1, -1, -1):
         if dp[mask] < 0:
             continue
-        for j, x in enumerate(row):
+        for j in range(5):
             if mask & (1<<j):
                 continue
             
             mask2 = mask | (1<<j)
-            dp[mask2] = max(dp[mask2], dp[mask] + x)
+            dp[mask2] = max(dp[mask2], dp[mask] + row[j])
 
 print(dp[(1<<5)-1])
