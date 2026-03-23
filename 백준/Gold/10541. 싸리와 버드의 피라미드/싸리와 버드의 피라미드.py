@@ -3,14 +3,13 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-st = input().rstrip()
+st = [ord(x)-65 for x in input().rstrip()]
 M = len(st)
-A, Z = ord('A'), ord('Z')
-arr = [array('I', [0]*(Z+1)) for _ in range(M)]
+arr = [array('I', [0]*26) for _ in range(M)]
 for i, x in enumerate(st):
-    arr[i][ord(x)] = 1
+    arr[i][x] = 1
     if i == 0: continue
-    for j in range(A, Z+1):
+    for j in range(26):
         arr[i][j] += arr[i-1][j]
 
 K = int(input())
@@ -18,7 +17,7 @@ ans = []
 for _ in range(K):
     a, c = input().split()
     a = int(a)
-    C = ord(c)
+    C = ord(c) - 65
     
     S = a*(a-1)//2
     total = arr[-1][C]
