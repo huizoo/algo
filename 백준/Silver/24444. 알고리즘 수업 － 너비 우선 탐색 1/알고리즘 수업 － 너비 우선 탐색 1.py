@@ -3,19 +3,19 @@ import sys
 input = sys.stdin.readline
 
 N, M, R = map(int, input().split())
-arr = [[] for _ in range(N+1)]
+arr = [[] for _ in range(N)]
 for _ in range(M):
     u, v = map(int, input().split())
-    arr[u].append(v)
-    arr[v].append(u)
+    arr[u-1].append(v-1)
+    arr[v-1].append(u-1)
 
-for i in range(1, N+1):
+for i in range(N):
     arr[i].sort()
 
-visited = [0]*(N+1)
+visited = [0]*(N)
 cnt = 1
-visited[R] = cnt
-q = deque([R])
+visited[R-1] = cnt
+q = deque([R-1])
 while q:
     now = q.popleft()
     for nxt in arr[now]:
@@ -24,4 +24,4 @@ while q:
         visited[nxt] = cnt
         q.append(nxt)
 
-print(*visited[1:], sep='\n')
+print(*visited, sep='\n')
