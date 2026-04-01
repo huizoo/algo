@@ -24,4 +24,4 @@ while q:
         visited[nxt] = cnt
         q.append(nxt)
 
-print(*visited, sep='\n')
+print('\n'.join(map(str, visited)))
