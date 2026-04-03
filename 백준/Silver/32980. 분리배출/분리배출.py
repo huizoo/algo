@@ -1,4 +1,3 @@
-from collections import defaultdict
 import sys
 input = sys.stdin.readline
 N = int(input())
@@ -12,14 +11,11 @@ dic = {
     'O': 0,
 }
 for _ in range(N):
-    dic2 = defaultdict()
     st = input().rstrip()
-    l = 0
-    for x in st:
-        l += 1
-        dic2[x] = 1
-    if len(dic2) == 1:
-        dic[list(dic2.keys())[0]] += l
+    Set = set(st)
+    l = len(st)
+    if len(Set) == 1:
+        dic[next(iter(Set))] += l
     else:
         dic['O'] += l
 
