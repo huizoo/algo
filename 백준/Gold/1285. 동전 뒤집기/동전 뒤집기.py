@@ -14,6 +14,8 @@ for mask in range(1<<N):
     for x in arr:
         cnt = (x^mask).bit_count()
         total += min(cnt, N-cnt)
+        if total >= Min:
+            break
     Min = min(Min, total)
 
 print(Min)
