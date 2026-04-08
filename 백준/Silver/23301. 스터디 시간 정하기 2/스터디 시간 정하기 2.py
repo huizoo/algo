@@ -2,21 +2,30 @@ import sys
 input = sys.stdin.readline
 
 N, T = map(int, input().split())
-dat = [0]*1001
+arr = [0]*1001
+END = 0
 for _ in range(N):
     K = int(input())
     for _ in range(K):
         S, E = map(int, input().split())
-        for i in range(S, E):
-            dat[i] += 1
+        arr[S] += 1
+        arr[E] -= 1
+        if END < E:
+            END = E
 
-Sum = sum(dat[:T])
-Max = Sum
-ms, me = 0, T
-for i in range(T, 1001):
-    Sum += dat[i]-dat[i-T]
+cnt = 0
+prefix = [0]*1001
+for i in range(END):
+    prefix[i] += cnt
+    prefix[i] += prefix[i-1]
+    cnt += arr[i]
+
+s, e = 0, T
+Max = 0
+for i in range(T, END):
+    Sum = prefix[i] - prefix[i-T]
     if Max < Sum:
         Max = Sum
-        ms, me = i-T+1, i+1
+        s, e = i-T, i
 
-print(ms, me)
+print(s, e)
