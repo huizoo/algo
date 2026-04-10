@@ -5,19 +5,18 @@ input = sys.stdin.readline
 N = int(input())
 for _ in range(N):
     T, *arr = map(int, input().split())
-    dic = defaultdict(int)
+    cand = None
+    cnt = 0
     for x in arr:
-        dic[x] += 1
+        if cnt == 0:
+            cand = x
+            cnt += 1
+        elif cand == x:
+            cnt += 1
+        else:
+            cnt -= 1
     
-    key = value = 0
-
-    for k, v in dic.items():
-        if value < v:
-            key, value = k, v
-    
-    if value > T//2:
-        print(key)
+    if arr.count(cand) > T//2:
+        print(cand)
     else:
-        print("SYJKGW")
-
-    
+        print('SYJKGW')
