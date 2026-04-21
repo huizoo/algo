@@ -1,21 +1,24 @@
-def solution(mats, park):
-    N = len(park)
-    M = len(park[0])
-    arr = [[0]*(M+1) for _ in range(N+1)]
-    for i, row in enumerate(park):
-        for j, el in enumerate(row):
-            arr[i+1][j+1] = arr[i+1][j] + arr[i][j+1] - arr[i][j] + (1 if el == "-1" else 0)
-    
-    Max = -1
-    mats.sort()
-    for i, row in enumerate(park):
-        for j, el in enumerate(row):
-            if el == "-1":
-                for m in mats:
-                    if i+m <= N and j+m <= M and \
-                        m**2 == arr[i+m][j+m] - arr[i][j+m] - arr[i+m][j] + arr[i][j]:
-                        Max = max(Max, m)
-                    else:
-                        break
+# 속도 테스트
 
-    return Max
+def can_place_mat(park, size):
+    # 공원의 행(row)와 열(col) 길이
+    rows, cols = len(park), len(park[0])
+
+    # park에서 주어진 size의 돗자리를 놓을 수 있는지 확인
+    for i in range(rows - size + 1):
+        for j in range(cols - size + 1):
+            # size x size 크기의 공간이 모두 '-1'인지 확인
+            if all(park[x][y] == '-1' for x in range(i, i + size) for y in range(j, j + size)):
+                return True
+    return False
+
+def solution(mats, park):
+    # 돗자리 크기 내림차순으로 정렬
+    mats.sort(reverse=True)
+
+    # 각 돗자리 크기에 대해 놓을 수 있는지 확인
+    for size in mats:
+        if can_place_mat(park, size):
+            return size
+
+    return -1
