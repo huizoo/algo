@@ -6,6 +6,9 @@ def solution(park, routes):
             if v == 'S':
                 y, x = i, j
                 break
+        if y != -1:
+            break
+    
     rotated_park = list(zip(*park))
     for route in routes:
         dir, mv = route.split()
