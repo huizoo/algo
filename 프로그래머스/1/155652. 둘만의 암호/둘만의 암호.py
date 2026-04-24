@@ -1,19 +1,16 @@
-start, end = ord('a'), ord('z') + 1
-def change_alpha(num):
-    return start + num % end if num >= end else num
+from string import ascii_lowercase
 
 def solution(s, skip, index):
-    answer = []
-    skip_set = set(ord(ch) for ch in skip)
-    for ch in s:
-        nxt = now = ord(ch)
-        for i in range(index):
-            nxt = change_alpha(nxt + 1)
-            while nxt in skip_set:
-                nxt = change_alpha(nxt + 1)
-        if nxt >= end:
-            answer.append(chr(change_alpha(nxt)))
-        else:
-            answer.append(chr(nxt))
-    
-    return ''.join(map(str, answer))
+    result = ''
+
+    a_to_z = set(ascii_lowercase)
+    a_to_z -= set(skip)
+    a_to_z = sorted(a_to_z)
+    l = len(a_to_z)
+
+    dic_alpha = {alpha:idx for idx, alpha in enumerate(a_to_z)}
+
+    for i in s:
+        result += a_to_z[(dic_alpha[i] + index) % l]
+
+    return result
