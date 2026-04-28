@@ -1,7 +1,7 @@
 def solution(a, b, g, s, w, t):
     def pos(time):
         gold = silver = total = 0
-        for gi, si, wi, ti in arr:
+        for gi, si, wi, ti in zip(g, s, w, t):
             move = time//(2*ti)
             if time%(2*ti) >= ti:
                 move += 1
@@ -11,8 +11,7 @@ def solution(a, b, g, s, w, t):
             total += min(gi + si, can_move)
         return gold >= a and silver >= b and total >= a + b
         
-    arr = list(zip(g, s, w, t))
-    left, right = 0, 10**15
+    left, right = 0, 2 * max(t) * (a + b)
     while left < right:
         mid = (left + right) // 2
         if pos(mid):
