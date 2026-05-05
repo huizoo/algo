@@ -21,6 +21,9 @@ def solution(picks, minerals):
     l = len(minerals)
     def use_pick(mineral_idx, total):
         nonlocal answer
+        if answer <= total:
+            return
+        
         if mineral_idx == l or sum(picks) == 0:
             if answer > total:
                 answer = total
