@@ -1,47 +1,39 @@
-from collections import defaultdict
-
 def solution(points, routes):
-    answer = 0
+    def move(*trc):
+        nonlocal time
+        if trc in visited:
+            danger.add(trc)
+        else:
+            visited.add(trc)
+        time += 1
     
-    n, x, m = len(points), len(routes), len(routes[0])
     
-    visited = defaultdict(list)
+    m = len(routes[0])
+    visited = set()
+    danger = set()
     
-    for j in range(x):
-        for i in range(m):
-            if i == 0: continue
-            next_y, next_x = points[routes[j][i]-1]
-            now_y, now_x = points[routes[j][i-1]-1]
-            if i == 1:
-                visited[j].append((now_y, now_x))
-            end = abs(next_y - now_y) + abs(next_x - now_x)
-            for _ in range(end):
-                if next_y > now_y:
-                    now_y += 1                    
-                elif next_y < now_y:
-                    now_y -= 1
-                elif next_x > now_x:
-                    now_x += 1
-                elif next_x < now_x:
-                    now_x -= 1
-                visited[j].append((now_y, now_x))
-
-    Max = 0
-    for i in visited:
-        Max = max(Max, len(visited[i]))
-    
-    for i in range(Max):
-        check = set()
-        duplication = set()
-        for j in range(x):
-            if len(visited[j]) - 1 >= i:
-                if visited[j][i] in check:
-                    duplication.add(visited[j][i])
-                else:
-                    check.add(visited[j][i])
+    for route in routes:
+        time = 0
         
-        if len(check) != x:
-            answer += len(duplication)
+        sr, sc = points[route[0]-1]
+        move(time, sr, sc)
+        
+        for i in range(m-1):
+            r, c = points[route[i]-1]
+            nr, nc = points[route[i+1]-1]
             
-        
-    return answer
+            if r < nr:
+                for rr in range(r+1, nr+1):
+                    move(time, rr, c)
+            else:
+                for rr in range(r-1, nr-1, -1):
+                    move(time, rr, c)
+            
+            if c < nc:
+                for cc in range(c+1, nc+1):
+                    move(time, nr, cc)
+            else:
+                for cc in range(c-1, nc-1, -1):
+                    move(time, nr, cc)
+                
+    return len(danger)
