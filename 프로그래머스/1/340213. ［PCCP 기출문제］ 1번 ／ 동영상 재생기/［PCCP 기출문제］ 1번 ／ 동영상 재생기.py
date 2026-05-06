@@ -25,6 +25,5 @@ def solution(video_len, pos, op_start, op_end, commands):
             pos = max(pos-10, 0)
             if is_op(pos):
                 pos = op_end
-    minute = pos//60
-    second = pos%60
-    return ':'.join((f"0{minute}" if minute < 10 else f"{minute}", f"0{second}" if second < 10 else f"{second}"))
+
+    return f"{pos//60:02d}:{pos%60:02d}"
