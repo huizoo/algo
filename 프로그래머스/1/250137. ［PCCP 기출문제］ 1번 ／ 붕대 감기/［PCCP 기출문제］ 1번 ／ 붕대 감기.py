@@ -1,31 +1,17 @@
-def solution(bandage, max_health, attacks):
-    skill_time, heal, heal2 = bandage
-    health = max_health
+def solution(bandage, health, attacks):   
+    casting_time, heal_amount, additional_heal_amount = bandage
+    max_health = health
+    time = 0
     
-    real_time = 0
-    seq = 0
-    
-    for attack_time, damage in attacks:
-        while 1:
-            if real_time < attack_time:
-                seq += 1
-                if seq == skill_time:
-                    seq = 0
-                    health = health + heal + heal2
-                else:
-                    health = health + heal
-                health = min(health, max_health)
-            else:
-                health -= damage
-                if health <= 0:
-                    return -1
-                seq = 0
-                real_time += 1
-                break
-            real_time += 1
-            print(health)
-                
-            
-    
+    for attack_time, attack_damage in attacks:
+        heal_time = attack_time - time - 1
+        time = attack_time
+        additional_cnt = heal_time // casting_time
+        health = min(max_health,
+                     health + heal_time * heal_amount + additional_cnt * additional_heal_amount) \
+                 - attack_damage
+        
+        if health <= 0:
+            return -1
     
     return health
