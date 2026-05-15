@@ -4,15 +4,14 @@ def time_to_minute(time):
 
 def solution(book_time):
     answer = 0
-    room = [0]
+    room = []
     book_time.sort()
     for start, end in book_time:
         start = time_to_minute(start)
         end = time_to_minute(end)
         target_idx = -1
-        latest_end = -1
         for idx, room_end in enumerate(room):            
-            if room_end <= start and latest_end < room_end:
+            if room_end <= start:
                 target_idx = idx
         
         if target_idx == -1:
