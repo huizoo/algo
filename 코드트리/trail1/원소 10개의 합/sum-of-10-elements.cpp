@@ -1,13 +1,12 @@
 #include <iostream>
+#include <numeric>
 using namespace std;
 
 int main() {
-    int total, n;
-    total = 0;
+    int arr[10];
     for (int i=0; i<10; i++) {
-        cin >> n;
-        total += n;
+        cin >> arr[i];
     }
-    cout << total;
+    cout << accumulate(arr, arr+10, 0);
     return 0;
 }
