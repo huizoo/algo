@@ -17,6 +17,6 @@ def solution(weights):
         for w2, cnt2 in dic.items():
             if w == w2:
                 answer += comb(cnt, 2)
-            elif is_balanced(w, w2):
+            elif w < w2 and is_balanced(w, w2):
                 answer += cnt*cnt2
     return answer
