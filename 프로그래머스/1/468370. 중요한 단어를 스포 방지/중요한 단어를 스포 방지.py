@@ -1,40 +1,40 @@
+from collections import defaultdict
+
 def solution(message, spoiler_ranges):
     answer = 0
-    dic = dict()
-    for x in message.split():
-        if x in dic:
-            dic[x] += 1
+    words = defaultdict(int)
+    message += ' '
+    n = len(message)    
+    spoiler_range = [0]*(n + 1)
+    
+    for s, e in spoiler_ranges:
+        spoiler_range[s] += 1
+        if e < n:
+            spoiler_range[e + 1] -= 1
+    
+    current = 0
+    for i in range(n):
+        current += spoiler_range[i]
+        spoiler_range[i] = 1 if current > 0 else 0
+    
+    masked = 0
+    current_word = ''
+    masked_words = set()
+    for i, v in enumerate(message):
+        if v != ' ':
+            current_word += v
+            if spoiler_range[i]:
+                masked = spoiler_range[i]
+        elif masked:
+            masked_words.add(current_word)
+            current_word = ''
+            masked = 0
         else:
-            dic[x] = 1
-    n = len(message)
-    visited = [0]*n
-    for l, r in spoiler_ranges:
-        while l >= 0 and message[l] != ' ':
-            l -= 1
-        while r < n and message[r] != ' ':
-            r += 1
-        start = -1
-        for x in range(l+1, r):
-            if visited[x]: continue
-            visited[x] = 1
-            if start == -1:
-                if message[x] == ' ': continue
-                start = x
-            elif message[x] == ' ':
-                word = message[start:x]
-                
-                if dic[word] == 1:
-                    answer += 1
-                else:
-                    dic[word] -= 1
-                start = -1
+            words[current_word] += 1
+            current_word = ''
+            masked = 0
         
-        if start != -1:
-            word = message[start:r]
-            if dic[word] == 1:
-                answer += 1
-            else:
-                dic[word] -= 1
-        
+    for masked_word in masked_words:
+        answer += 0 if words[masked_word] else 1
         
     return answer
