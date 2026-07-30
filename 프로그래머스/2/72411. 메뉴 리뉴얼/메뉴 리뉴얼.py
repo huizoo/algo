@@ -1,36 +1,27 @@
-from collections import defaultdict
+from itertools import combinations
+from collections import Counter
 
 def solution(orders, course):
     answer = []
-    dic = {size: defaultdict(int) for size in course}
-    
-    for order in orders:
-        order = sorted(order)
-        n = len(order)
-        
-        for mask in range(1, 1 << n):
-            size = mask.bit_count()
-            
-            if size not in dic:
-                continue
-                
-            menu = []
-            
-            for i in range(n):
-                if mask & (1 << i):
-                    menu.append(order[i])
-            
-            dic[size][''.join(map(str, menu))] += 1
-    
-    for size, menus in dic.items():
-        Max = 2
-        candidate = []
-        for menu, cnt in menus.items():
-            if Max < cnt:
-                candidate = [menu]
-                Max = cnt
-            elif Max == cnt:
-                candidate.append(menu)        
-        answer.extend(candidate)
-        
+
+    for size in course:
+        counter = Counter()
+
+        for order in orders:
+            for combination in combinations(sorted(order), size):
+                menu = ''.join(combination)
+                counter[menu] += 1
+
+        if not counter:
+            continue
+
+        max_count = max(counter.values())
+
+        if max_count < 2:
+            continue
+
+        for menu, count in counter.items():
+            if count == max_count:
+                answer.append(menu)
+
     return sorted(answer)
