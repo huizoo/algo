@@ -1,0 +1,13 @@
+select USER_ID, NICKNAME, SUM(PRICE) as TOTAL_SALES 
+from USED_GOODS_BOARD B1
+join USED_GOODS_USER U
+on B1.WRITER_ID = U.USER_ID
+where B1.WRITER_ID in (
+    select B2.WRITER_ID
+    from USED_GOODS_BOARD B2
+    where B2.STATUS = 'DONE'
+    group by B2.WRITER_ID
+    having SUM(PRICE) >= 700000
+) and B1.STATUS = 'DONE'
+group by USER_ID
+order by TOTAL_SALES ASC
