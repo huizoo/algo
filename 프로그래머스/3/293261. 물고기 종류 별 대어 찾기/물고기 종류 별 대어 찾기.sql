@@ -14,6 +14,5 @@ where (A.FISH_TYPE, A.LENGTH) in (
     select FISH_TYPE, MAX(LENGTH) as LENGTH
     from FISH_INFO
     group by FISH_TYPE
-    having MAX(LENGTH)
 )
 order by A.ID
