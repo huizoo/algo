@@ -4,17 +4,10 @@
 # 같은 연도에 대해서는 대장균 크기의 편차에 대해 오름차순으로 정렬해주세요.
 
 select
-    YEAR,
-    (MAX_SIZE_OF_COLONY - SIZE_OF_COLONY) as YEAR_DEV,
+    year(DIFFERENTIATION_DATE) as YEAR,
+    (MAX(SIZE_OF_COLONY) over (partition by year(DIFFERENTIATION_DATE)) - SIZE_OF_COLONY) as YEAR_DEV,
     ID
-from (
-    select
-        year(DIFFERENTIATION_DATE) as YEAR,
-        MAX(SIZE_OF_COLONY) over (partition by year(DIFFERENTIATION_DATE)) as MAX_SIZE_OF_COLONY,
-        SIZE_OF_COLONY,
-        ID
-    from ECOLI_DATA
-) as t
+from ECOLI_DATA
 order by YEAR, YEAR_DEV
 
 
