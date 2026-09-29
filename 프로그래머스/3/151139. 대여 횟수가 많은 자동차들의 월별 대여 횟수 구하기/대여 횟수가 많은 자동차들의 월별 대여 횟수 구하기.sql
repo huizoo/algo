@@ -5,22 +5,20 @@
 # 결과는 월을 기준으로 오름차순 정렬하고, 월이 같다면 자동차 ID를 기준으로 내림차순 정렬해주세요.
 # 특정 월의 총 대여 횟수가 0인 경우에는 결과에서 제외해주세요.
 
-select month(A.START_DATE) as MONTH, A.CAR_ID, count(*) as RECORDS
-from CAR_RENTAL_COMPANY_RENTAL_HISTORY as A
-right join (
-    select
-        CAR_ID,
-        sum(case
-            when START_DATE < '2022-11-01' and START_DATE >= '2022-08-01'
-            then 1
-            else 0
-        end)
-        as RECORDS
-    from CAR_RENTAL_COMPANY_RENTAL_HISTORY
-    group by CAR_ID
-    having RECORDS >= 5
-) as B
-    on A.CAR_ID = B.CAR_ID
-where START_DATE < '2022-11-01' and START_DATE >= '2022-08-01'
-group by month(A.START_DATE), A.CAR_ID
-order by month(A.START_DATE), A.CAR_ID desc
+select
+    month(START_DATE),
+    CAR_ID,
+    count(*) RECORDS
+from
+    CAR_RENTAL_COMPANY_RENTAL_HISTORY
+where
+    START_DATE >= '2022-08-01' and START_DATE < '2022-11-01'
+    and CAR_ID in (
+        select CAR_ID
+        from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+        where START_DATE >= '2022-08-01' and START_DATE < '2022-11-01'
+        group by CAR_ID
+        having count(*) >= 5
+    )
+group by month(START_DATE), CAR_ID
+order by month(START_DATE), CAR_ID desc
