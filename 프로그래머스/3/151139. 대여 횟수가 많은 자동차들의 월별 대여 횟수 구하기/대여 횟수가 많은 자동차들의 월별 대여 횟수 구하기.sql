@@ -6,7 +6,7 @@
 # 특정 월의 총 대여 횟수가 0인 경우에는 결과에서 제외해주세요.
 
 select
-    month(START_DATE),
+    month(START_DATE) as MONTH,
     CAR_ID,
     count(*) RECORDS
 from
