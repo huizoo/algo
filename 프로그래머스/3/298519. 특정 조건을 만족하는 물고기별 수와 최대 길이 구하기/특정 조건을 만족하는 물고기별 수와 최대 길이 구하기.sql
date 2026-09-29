@@ -6,12 +6,7 @@
 
 select
     count(*) as FISH_COUNT,
-    max(
-        case
-            when LENGTH <= 10 or LENGTH is null then 10
-            else LENGTH
-        end 
-    ) as MAX_LENGTH,
+    max(LENGTH) as MAX_LENGTH,
     FISH_TYPE
 from FISH_INFO
 group by FISH_TYPE
