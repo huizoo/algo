@@ -11,8 +11,8 @@ with recursive HOURS as (
     where HOUR < 23
 )
 
-select H.HOUR, COUNT(A.DATETIME) AS COUNT
-FROM HOURS H
+select H.HOUR, count(A.DATETIME) as COUNT
+from HOURS H
 left join ANIMAL_OUTS A
     on H.HOUR = HOUR(A.DATETIME)
 group by H.HOUR
