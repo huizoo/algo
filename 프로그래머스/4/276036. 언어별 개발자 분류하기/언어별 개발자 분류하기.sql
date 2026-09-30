@@ -7,43 +7,29 @@
 
 # 결과는 GRADE와 ID를 기준으로 오름차순 정렬해 주세요.
 
-with skills as (
-    select
-        sum(case
-            when CATEGORY = 'Front End' then CODE
-            else 0
-        end) as FRONT_CODE,
+select
+    case
+        when max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
+            and max(case when S.NAME = 'Python' then 1 else 0 end) = 1
+            then 'A'
+        
+        when max(case when S.NAME = 'C#' then 1 else 0 end) = 1
+            then 'B'
+        
+        when max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
+            then 'C'
+        
+    end as GRADE,
+    D.ID,
+    D.EMAIL
+           
+from DEVELOPERS as D
+join SKILLCODES as S
+    on (D.SKILL_CODE & S.CODE) = S.CODE
 
-        max(case
-            when name = 'Python' then CODE
-        end) as PYTHON_CODE,
+group by D.ID, D.EMAIL
+having 
+    max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
+    or max(case when S.NAME = 'C#' then 1 else 0 end) = 1
 
-        max(case
-            when NAME = 'C#' then CODE
-        end) as CSHARP_CODE
-    from SKILLCODES
-),
-GRADED as (
-    select
-        case
-            when (D.SKILL_CODE & S.FRONT_CODE) > 0
-                and (D.SKILL_CODE & S.PYTHON_CODE) > 0
-                then 'A'
-
-            when (D.SKILL_CODE & S.CSHARP_CODE) > 0
-                then 'B'
-
-            when (D.SKILL_CODE & S.FRONT_CODE) > 0
-                then 'C'
-        end as GRADE,
-
-        D.ID,
-        D.EMAIL
-    from DEVELOPERS as D
-    cross join SKILLS as S
-)
-
-select GRADE, ID, EMAIL
-from GRADED
-where grade is not null
-order by GRADE, ID
+order by GRADE, D.ID
