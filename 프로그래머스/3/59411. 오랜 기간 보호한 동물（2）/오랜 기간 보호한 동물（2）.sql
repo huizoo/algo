@@ -2,16 +2,9 @@
 # 이때 결과는 보호 기간이 긴 순으로 조회해야 합니다.
 
 
-select T.ANIMAL_ID, T.NAME
-from (
-    select
-        I.ANIMAL_ID,
-        I.NAME,
-        (O.DATETIME - I.DATETIME) as DURATION,
-        rank() over (order by (O.DATETIME - I.DATETIME) desc) as RNK
-    from ANIMAL_INS I
-    join ANIMAL_OUTS O
-        on I.ANIMAL_ID = O.ANIMAL_ID
-) as T
-order by T.RNK, T.DURATION desc
-limit 2
+select I.ANIMAL_ID, I.NAME
+from ANIMAL_INS I
+join ANIMAL_OUTS O
+    on I.ANIMAL_ID = O.ANIMAL_ID
+order by timestampdiff(second, I.DATETIME, O.DATETIME) desc
+limit 2;
