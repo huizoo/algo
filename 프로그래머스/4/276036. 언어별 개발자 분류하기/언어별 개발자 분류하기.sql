@@ -7,29 +7,56 @@
 
 # 결과는 GRADE와 ID를 기준으로 오름차순 정렬해 주세요.
 
-select
+
+select 
     case
-        when max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
-            and max(case when S.NAME = 'Python' then 1 else 0 end) = 1
-            then 'A'
+        when exists (
+            select 1
+            from SKILLCODES S
+            where S.CATEGORY = 'Front End'
+                and (D.SKILL_CODE & S.CODE) = S.CODE
+        )
+        and exists (
+            select 1
+            from SKILLCODES S
+            where S.NAME = 'Python'
+                and (D.SKILL_CODE & S.CODE) = S.CODE
+        )
+        then 'A'
         
-        when max(case when S.NAME = 'C#' then 1 else 0 end) = 1
-            then 'B'
+        when exists (
+            select 1 
+            from SKILLCODES S
+            where S.NAME = 'C#'
+                and (D.SKILL_CODE & S.CODE) = S.CODE
+        )
+        then 'B'
         
-        when max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
-            then 'C'
-        
+        when exists (
+            select 1
+            from SKILLCODES S
+            where S.CATEGORY = 'Front End'
+                and (D.SKILL_CODE & S.CODE) = S.CODE
+        )
+        then 'C'
     end as GRADE,
     D.ID,
     D.EMAIL
-           
+    
 from DEVELOPERS as D
-join SKILLCODES as S
-    on (D.SKILL_CODE & S.CODE) = S.CODE
 
-group by D.ID, D.EMAIL
-having 
-    max(case when S.CATEGORY = 'Front End' then 1 else 0 end) = 1
-    or max(case when S.NAME = 'C#' then 1 else 0 end) = 1
+where
+    exists (
+        select 1
+        from SKILLCODES S
+        where S.CATEGORY = 'Front End'
+            and (D.SKILL_CODE & S.CODE) = S.CODE
+    )
+    or exists (
+        select 1
+        from SKILLCODES S
+        where S.NAME = 'C#'
+            and (D.SKILL_CODE & S.CODE) = S.CODE
+    )
 
 order by GRADE, D.ID
