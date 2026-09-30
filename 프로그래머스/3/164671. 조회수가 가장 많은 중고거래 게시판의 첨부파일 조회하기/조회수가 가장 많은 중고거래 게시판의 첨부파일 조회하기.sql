@@ -15,11 +15,9 @@ from USED_GOODS_BOARD as B
 join USED_GOODS_FILE as F
     on B.BOARD_ID = F.BOARD_ID
 where (B.BOARD_ID) = (
-    select T.BOARD_ID
-    from (
-        select BOARD_ID, rank() over (order by VIEWS desc) as RNK
-        from USED_GOODS_BOARD
-    ) as T
-    where T.RNK = 1
+    select BOARD_ID
+    from USED_GOODS_BOARD
+    order by VIEWS desc
+    limit 1
 )
 order by F.FILE_ID desc
