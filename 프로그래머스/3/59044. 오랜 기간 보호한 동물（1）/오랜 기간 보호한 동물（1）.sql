@@ -4,8 +4,10 @@
 
 select I.NAME, I.DATETIME
 from ANIMAL_INS I
-where I.ANIMAL_ID not in (
-    select O.ANIMAL_ID
+where not exists (
+    select 1
     from ANIMAL_OUTS O
+    where I.ANIMAL_ID = O.ANIMAL_ID
 )
-order by I.DATETIME limit 3
+order by I.DATETIME
+limit 3
