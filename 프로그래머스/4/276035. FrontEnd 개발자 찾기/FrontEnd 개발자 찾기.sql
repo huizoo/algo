@@ -3,14 +3,12 @@
 
 # 결과는 ID를 기준으로 오름차순 정렬해 주세요.
 
-with FRONTEND as (
-    select CODE
-    from SKILLCODES
-    where CATEGORY = 'Front End'
-)
-
-select distinct D.ID, D.EMAIL, D.FIRST_NAME, D.LAST_NAME
+select D.ID, D.EMAIL, D.FIRST_NAME, D.LAST_NAME
 from DEVELOPERS as D
-cross join FRONTEND as F
-where (D.SKILL_CODE & F.CODE) = F.CODE
+where exists (
+    select 1
+    from SKILLCODES as S
+    where S.CATEGORY = 'Front End'
+        and D.SKILL_CODE & S.CODE = S.CODE
+)
 order by D.ID
