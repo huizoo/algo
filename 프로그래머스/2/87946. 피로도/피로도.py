@@ -4,7 +4,7 @@
 
 
 def solution(k, dungeons):
-    answer = -1
+    answer = 0
     l = len(dungeons)
     def dfs(now, remain, cnt, visited):
         nonlocal answer
