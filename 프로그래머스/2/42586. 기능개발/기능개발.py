@@ -2,7 +2,7 @@ def solution(progresses, speeds):
     answer = []
     today = 0
     for p, s in zip(progresses, speeds):
-        day = 0
+        day = 1
         while p + s < 100:
             p += s
             day += 1
