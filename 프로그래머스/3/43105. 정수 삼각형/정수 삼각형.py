@@ -1,11 +1,15 @@
 def solution(triangle):
-    N = len(triangle)
-    dp = [triangle[0][0]]
-    for i in range(N-1):
-        dp2 = [0]*(i+2)
-        for j in range(i+1):
-            dp2[j] = max(dp2[j], dp[j]+triangle[i+1][j])
-            dp2[j+1] = max(dp2[j+1], dp[j]+triangle[i+1][j+1])
-        dp = dp2
+    answer = 0
+    n = len(triangle)
     
-    return max(dp)
+    dp = [[0]*n for _ in range(n)]
+    dp[0][0] = triangle[0][0]
+    for i in range(1, n):
+        for j in range(i+1):
+            dp[i][j] = max(
+                dp[i-1][j-1] if j > 0 else 0,
+                dp[i-1][j] if j < n-1 else 0
+            ) + triangle[i][j]
+    
+    answer = max(dp[-1])
+    return answer
