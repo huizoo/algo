@@ -1,11 +1,10 @@
+from math import ceil
+
 def solution(progresses, speeds):
     answer = []
     today = 0
     for p, s in zip(progresses, speeds):
-        day = 0
-        while p < 100:
-            p += s
-            day += 1
+        day = ceil((100-p)/s)
         if today < day:
             today = day
             answer.append(1)
