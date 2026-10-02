@@ -10,12 +10,12 @@ def solution(N, road, K):
     
     dist = [INF]*(N+1)
     dist[1] = 0
-    heap = [(1, 0)]
+    heap = [(0, 1)]
     while heap:
-        now, cost = heapq.heappop(heap)
+        cost, now = heapq.heappop(heap)
         for nxt, cost2 in arr[now]:
             if dist[nxt] > (ncost:= cost+cost2):
                 dist[nxt] = ncost
-                heapq.heappush(heap, (nxt, ncost))
+                heapq.heappush(heap, (ncost, nxt))
     
     return sum(1 if dist[i] <= K else 0 for i in range(1, N+1))
